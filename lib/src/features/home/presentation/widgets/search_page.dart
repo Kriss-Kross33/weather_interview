@@ -15,6 +15,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   Timer? _timer;
 
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -34,49 +36,57 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextField(
-          onChanged: _debounceCitySearch,
-          decoration: InputDecoration(
-            hintText: 'Search city',
-            hintStyle: const TextStyle(fontSize: 18),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.grey.shade700,
+    return BlocListener<WeatherBloc, WeatherState>(
+      listener: (context, state) {
+        if (state.status == WeatherStatus.success) {
+          _searchController.text = '';
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            onChanged: _debounceCitySearch,
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search city',
+              hintStyle: const TextStyle(fontSize: 18),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade700,
+                ),
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.grey.shade700,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade700,
+                ),
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.grey.shade600,
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade600,
+                ),
               ),
             ),
           ),
-        ),
-        BlocBuilder<WeatherBloc, WeatherState>(
-          builder: (context, state) {
-            return switch (state.status) {
-              WeatherStatus.initial => const SizedBox(),
-              WeatherStatus.loading => const Padding(
-                  padding: EdgeInsets.only(top: 40),
-                  child: CircularProgressIndicator(),
-                ),
-              WeatherStatus.success => WeatherLoaded(
-                  weather: state.weather,
-                ),
-              WeatherStatus.failure => Center(
-                  child: Text(state.errorMessage ?? 'Unknown Error'),
-                ),
-            };
-          },
-        ),
-      ],
+          BlocBuilder<WeatherBloc, WeatherState>(
+            builder: (context, state) {
+              return switch (state.status) {
+                WeatherStatus.initial => const SizedBox(),
+                WeatherStatus.loading => const Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: CircularProgressIndicator(),
+                  ),
+                WeatherStatus.success => WeatherLoaded(
+                    weather: state.weather,
+                  ),
+                WeatherStatus.failure => Center(
+                    child: Text(state.errorMessage ?? 'Unknown Error'),
+                  ),
+              };
+            },
+          ),
+        ],
+      ),
     );
   }
 }
