@@ -61,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            backgroundColor: state == 0 ? AppColor.blue : AppColor.green,
+            backgroundColor:
+                state.currentIndex == 0 ? AppColor.blue : AppColor.green,
           ),
           body: Padding(
             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
