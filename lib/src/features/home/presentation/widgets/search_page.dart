@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_interview/src/features/home/presentation/blocs/home_cubit/home_cubit.dart';
 import 'package:weather_interview/src/features/home/presentation/blocs/weather_bloc/weather_bloc.dart';
 import 'package:weather_interview/src/features/home/presentation/widgets/widgets.dart';
 
@@ -36,9 +37,9 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<WeatherBloc, WeatherState>(
+    return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state.status == WeatherStatus.success) {
+        if (state.currentIndex == 1) {
           _searchController.text = '';
         }
       },
