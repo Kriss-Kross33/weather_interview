@@ -19,14 +19,21 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   Future<void> _onWeatherWeatherFetchedEvent(
       WeatherFetchedEvent event, Emitter<WeatherState> emit) async {
-    emit(state.copyWith(status: WeatherStatus.loading));
-    final eitherFailureOrWeather =
-        await _weatherRepository.getWeather(event.city);
-    eitherFailureOrWeather.fold(
-      (failure) => emit(WeatherState(errorMessage: failure.errorMessage)),
-      (weather) => emit(
-        state.copyWith(status: WeatherStatus.success, weather: weather),
-      ),
-    );
+    if (event.city.isNotEmpty) {
+      emit(state.copyWith(status: WeatherStatus.loading));
+      final eitherFailureOrWeather =
+          await _weatherRepository.getWeather(event.city);
+      eitherFailureOrWeather.fold(
+        (failure) => emit(
+          WeatherState(
+            errorMessage: failure.errorMessage,
+            status: WeatherStatus.failure,
+          ),
+        ),
+        (weather) => emit(
+          state.copyWith(status: WeatherStatus.success, weather: weather),
+        ),
+      );
+    }
   }
 }
