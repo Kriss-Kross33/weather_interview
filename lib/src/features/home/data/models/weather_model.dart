@@ -5,7 +5,7 @@ part 'weather_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class WeatherModel extends Weather {
-  WeatherModel({
+  const WeatherModel({
     required this.city,
     required this.countryCode,
     required this.data,
@@ -24,16 +24,13 @@ class WeatherModel extends Weather {
 
   @override
   final List<WeatherDataModel> data;
-  @JsonKey(name: 'datetime')
   factory WeatherModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$WeatherModelToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
 class WeatherDataModel extends WeatherData {
-  WeatherDataModel({
+  const WeatherDataModel({
     required this.maxTemp,
     required this.minTemp,
     required this.weather,
@@ -59,15 +56,13 @@ class WeatherDataModel extends WeatherData {
   factory WeatherDataModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherDataModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeatherDataModelToJson(this);
-
   static DateTime _dateTimefromJson(int value) =>
       DateTime.fromMillisecondsSinceEpoch(value);
 }
 
 @JsonSerializable()
 class WeatherInfoModel extends WeatherInfo {
-  WeatherInfoModel({
+  const WeatherInfoModel({
     required this.description,
     required this.icon,
     required this.code,
@@ -81,6 +76,4 @@ class WeatherInfoModel extends WeatherInfo {
 
   factory WeatherInfoModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherInfoModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$WeatherInfoModelToJson(this);
 }
