@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' show Client;
 import 'package:weather_interview/src/core/core.dart';
-import 'package:weather_interview/src/features/home/data/repositories/weather_repository.dart';
+import 'package:weather_interview/src/features/home/data/repositories/weather_repository_impl.dart';
 import 'package:weather_interview/src/features/home/domain/repositories/weather_repository.dart';
 import 'package:weather_interview/src/weather_app.dart';
 
