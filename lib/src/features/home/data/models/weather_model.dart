@@ -55,9 +55,6 @@ class WeatherDataModel extends WeatherData {
 
   factory WeatherDataModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherDataModelFromJson(json);
-
-  static DateTime _dateTimefromJson(int value) =>
-      DateTime.fromMillisecondsSinceEpoch(value);
 }
 
 @JsonSerializable()
